@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Hydrant Inspector</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+	<!-- CSS Imports -->
+	<script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+	<link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+		crossorigin="anonymous"/>
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+		integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+		crossorigin=""/>
+	<link rel="stylesheet" href="src/style.css"/>
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+
+	<style>
+		#map { position: absolute;
+		left:25%;
+		top:40px;
+		bottom:0;
+		width: 75%;}
+	</style>
+	<!-- title -->
+	<div class="titlebar space">
+		<h4 style="font-family: 'Avenir', Helvetica, sans-serif;">PHILADELPHIA HYDRANT INSPECTOR</h4>
+	</div>
+
+</head>
+<body>
+	<!-- Sidebar -->
+	<div class="sidebar">
+        <!-- Start sidebar options section -->
+		<div id="threshold" class="w-100">
+			<div class="help-tip">
+			    <p><p>
+			    	<b>Fire Risk: </b> Predicted fires trained on 2018 data. <br>
+					<br>
+			    	<b>Industrial Parcels:</b> Kernel density industrial parcels around hydrant <br>
+					<br>
+			    	<b>Social Impact:</b> Proximity to schools, number of youth/elderly, population density, and median income of area.<br>
+					<br>
+			    	<b>Hydrant Age:</b> 2020 - year built.
+			    	<br>
+			    	<br>
+			    	<b>Select if you would like scores ranked 1-10 within engines or across the city.</b>
+		    	</p>
+
+			</div>
+			<h5>Build hydrant inspection prioritization:</h5>
+			<div class="container">
+				<p><b>Factors to prioritize:</b></p>
+			 <!-- BE CAREFUL WITH CHECKBOXES! The jQuery API handles checkboxes differently than other inputs! -->
+			     <label id="checkbox-label1" for="cbox-input1">Fire Risk</label>
+			     <input type="checkbox" id="cbox-input1">
+			     <br>
+			     <label id="checkbox-label2" for="cbox-input2">Industrial Parcels</label>
+			     <input type="checkbox" id="cbox-input2">
+			     <br>
+			     <label id="checkbox-label3" for="cbox-input3">Social Impact</label>
+			     <input type="checkbox" id="cbox-input3">
+			     <br>
+			     <label id="checkbox-label4" for="cbox-input4">Hydrant Age</label>
+			     <input type="checkbox" id="cbox-input4">
+			     <br>
+			     <!-- toggle to rank by engine or by philly -->
+			    <label id="rank_by-label" for="rank_by"><b>Ranking by:</b></label>
+				<input type="checkbox" checked data-toggle="toggle" data-on="engines" data-off="city" data-onstyle="warning" data-offstyle="info" id="rank_by"data-size="small" data-width="65">
+
+			</div>
+		 	<!-- End of score filters -->
+			<h5>Filter Hydrants:</h5>
+			<!-- Begin of hydrany filter -->
+			<!-- <p>Drag the slider to select prioritization score.</p> -->
+			<div class="container">
+				<label id="checkbox-label5" for="cbox-input5">Filter by priority?</label>
+			    <input type="checkbox" id="cbox-input5">
+			    <div class="slider">
+				    <input type="range" min="1" max="10" value="1" class="slider" id="myRange">
+				    <p>Priority: <span id="demo"></span></p>
+				</div>
+			</div>
+			<br>
+			<br>
+			<!-- Filter for Engines-->
+			<!-- <p>Type in engine number to view selected engine.</p> -->
+			<div class="container">
+				<label id="checkbox-label6" for="cbox-input6">Filter by engine?</label>
+				<input type="checkbox" id="cbox-input6">
+				<!-- Trigger/Open The Modal -->
+		   		<button id="engineBtn" src="EngineMap.jpg" alt="Engines and numbers">See engines</button>
+
+				<!-- The Modal -->
+			  	<div id="myModal" class="modal">
+					<!-- The Close Button -->
+					<span class="close">&times;</span>
+					<!-- Modal Content (The Image) -->
+					<img class="modal-content" id="img01">
+					<!-- Modal Caption (Image Text) -->
+					<div id="caption"></div>
+				</div>
+				<br>
+		     	<input id="text-input1" class="input-text" type="text" placeholder="Engine Num">
+		    </div>
+			<br>
+			<!-- Buttons to update and reset map -->
+		    <button id="plotbutton" style="margin-bottom:20px">Update map</button>
+			<button id="resetbutton" style="margin-bottom:20px">Reset map</button>
+
+		</div>
+
+
+ 		<div class="card">
+ 			<div class ="card-footer">
+	 			<h5 class="card-title" style="text-align:center"><strong>   ABOUT   </strong></h5>
+	 			<p class="card-text">Hydrant Inspector is an application to help the Philadelphia Fire Department to inspect hydrants. The fire risk scores were generated using machine learning methods. For more information on the process, please follow the links below:</p>
+		        <!-- <a data-toggle="modal" data-target="#exampleModal" style="float: left">Guide</a> -->
+		        <a class= "card-link" href="#" style="text-align:center">Project Markdown</a>
+				<br>
+		        <a class= "card-link" href="https://github.com/njxinran95/PhillyFire_App" style="text-align:center">APP Github</a>
+				<br>
+				<a class="card-link" href="https://pennmusa.github.io/MUSA_801.io/" style="text-align:center">MUSA Home</a>
+				<br>
+				<br>
+		        <p class="card-text"><strong>Team:</strong> Leanne Chan, Ran Xin, Ziqun Li (University of Pennsylvania, 2020)<br><strong>APP by:</strong> Leanne Chan, Ran Xin</p>
+	     	</div>
+	    </div>
+
+
+
+      	<!-- <p id="credit">Ran Xin and Leanne Chan, University of Pennsylvania 2020</p> -->
+	</div>
+	<!-- end of sidebar -->
+	<!-- Map -->
+	<div id="map"></div>
+	<!-- Legend  -->
+	<div class='map-overlay' id='legend'></div>
+	<!-- Slider: Adjust engine opacity-->
+	<div class="map-overlay" id='opacityslider1'>
+		<div class="map-overlay" id='opacityslider2'>
+			<label style="font-family: 'Avenir', Helvetica, sans-serif;">Engine opacity: <span id="slider-value_map">100%</span></label>
+			<input
+				id="slider_map"
+				type="range"
+				min="0"
+				max="100"
+				step="0"
+				value="100"/>
+		</div>
+	</div>
+
+	<!-- Slider: Adjust hydrant opacity-->
+	<div class="map-overlay" id='opacityslider3'>
+		<div class="map-overlay" id='opacityslider4'>
+			<label style="font-family: 'Avenir', Helvetica, sans-serif;">Hydrant opacity: <span id="slider-value_map2">100%</span></label>
+			<input
+			id="slider_map2"
+			type="range"
+			min="0"
+			max="100"
+			step="0"
+			value="100"
+			/>
+		</div>
+	</div>
+
+	<!-- Button： show and hide layers-->
+	<div class="dropdown" id="mapOptions">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        Map Views
+        </button>
+        <!-- map options will be added in this div below in the main.js -->
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="menu"></div>
+ 	</div>
+
+	<!-- Button trigger modal -->
+	<button type="button" id="helpButton" class="btn btn-primary" data-toggle="modal" data-target="#myModalHome">
+	  User guide
+	</button>
+
+	<!-- Modal -->
+    <div class="modal fade" id="myModalHome" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    	<div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	        	<div class="modal-header">
+		            <h5 class="modal-title" id="myModalLabel">Welcome! Here is the guide to use the App:</h5>
+		            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		              <span aria-hidden="true">&times;</span>
+		            </button>
+	          	</div>
+		         <div class="modal-body">
+		            <p style="font-size:14px;">* When opening up, if the hydrant points are not shown on the map, or if you can only see engine polygons, please refresh the page.</p>
+		            <p style="font-weight:bold;">On the map</p>
+		            <ul style="font-size:14px;">
+			            <li>
+			            	When opening the page, you will see on the map, engine polygons that are colored based on fire risk, overlaid by hydrant points. You are free to use the <strong> "Map Views" </strong> dropdown to select which feature(s) you would like to see.
+			          	</li>
+						<li>
+							Toggling the <strong>"Hydrant opacity"</strong> and <strong>"Engine opacity"</strong> sliders can adjust the transparency level of hydrant points and fire engines appearance on the map.
+						</li>
+						<li>
+							Clicking on each hydrant point or each engine polygon will show a popup window that displays its basic information. However, since there are over 25000 hydrant points with a high density shown on the map, if you would like to check information for individual hydrants, it will be better for you to <strong>turn off the engine layer</strong> first by clicking the <strong>"Map Views"</strong> dropdown and <strong> de-select "engines"</strong>.
+						</li>
+					</ul>
+					<p style="font-weight:bold;">On the sidebar: Customize hydrant inspection prioritization and views</p>
+					<ul style="font-size:14px;">
+						<li>
+			            	If you want to <strong>build hydrant inspection prioritization</strong>, in <strong>"Factors to prioritize"</strong>, you need to check at least one of the four factors; you are also free to check two or three or all factors with any combinations.
+			            </li>
+			            <li>
+			            	Next you can toggle <strong>"Ranking by"</strong> to select if you would like hydrant scores to be ranked 1-10 within each engine or 1-10 across the whole city.
+			          	</li>
+			          	<li>
+			            	Please select <strong>"Update map"</strong> after making your selection to view the hydrant priorities based on your customization distributed across the City. The priorities are score from 1 to 10, <strong>1 is the top priority and 10 is the lowest priority</strong>. If you want to only view hydrants of a specific priority, you need to check <strong>"Filter by priority?" </strong> and <strong>toggle the slider</strong> to choose the priority value you would like to see. Finally, click again on<strong>"Update map"</strong> to see the results on the map.
+			          	</li>
+						<li>
+							If you want to view a specifc engine to see how its hydrant priorities look like, after you make selections in <strong>"Factors to prioritize"</strong>, you can choose to <strong>skip "Filter by priority" </strong> and simply check <strong>"Filter by engine?"</strong>. Clicking <strong>"See engines"</strong> will allow you to see a map with different engines labeled with engine numbers. You can then type the engine number you want to zoom in by referring to the map.
+						</li>
+						<li>
+							If you want to view hydrants of a certain priority in a certain engine, after you make selections in <strong>"Factors to prioritize"</strong>, you need to <strong>select AND complete both "Filter by priority" </strong> and <strong>"Filter by engine"</strong>. Then click <strong>"Update map"</strong>.
+						</li>
+						<li>
+							If you only want to see plain hydrant points in a certain engine, you can skip<strong> "Factors to prioritize" and "Filter by priority"</strong>, and <strong>check "Filter by engine" box</strong>and enter the desired engine. 
+						</li>
+						<li>
+							<strong>"Reset map"</strong> button will clear all selections and/or inputs you've made and reset all hydrant points on the map into the default color.
+						</li>
+		        	</ul>
+		      	</div>
+		      	<!-- end of model-body -->
+	          	<div class="modal-footer">
+	            	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        	</div>
+	        	<!-- end of model-footer -->
+	      	</div>
+      	<!-- end of modal content -->
+    	</div>
+  	</div>
+  	<!-- End of user guide modal -->
+
+	<!-- SCRIPTS! -->
+	<script src="main.js"></script>
+	<script src="helperfunctions.js"></script>
+	<script src="src/jquery-2.2.0.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" integrity="sha256-obZACiHd7gkOk9iIL/pimWMTJ4W/pBsKu+oZnSeBIek=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/leaflet.js" integrity="sha256-CNm+7c26DTTCGRQkM9vp7aP85kHFMqs9MhPEuytF+fQ=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.0.0/mapbox-gl-geocoder.min.js'></script>
+	<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+	<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+	<script src='https://api.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
+
+</body>
+</html>
