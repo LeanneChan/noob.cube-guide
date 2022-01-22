@@ -185,10 +185,11 @@ map.on('click', 'hydrants', function (e) {
   var coordinates = e.features[0].geometry.coordinates.slice();
   var description = "<b>" + e.features[0].properties.Name +"</b>";
   description += "<br><b>Category:</b> " + e.features[0].properties.Category;
-  description += "<br><b>Noob Cube Rating:</b> " + e.features[0].properties.YEAR_INSTA;
+  description += "<br><b>Noob Cube Rating:</b> " + e.features[0].properties.NoobCubeRating;
   description += "<br><b>Comments:</b> " + e.features[0].properties.Comments;
   description += "<br><b>Address:</b> " + e.features[0].properties.Address;
-  description += "<br><b>Link:</b> " + e.features[0].properties.Comments;
+  description += "<br><b>Find in Google Maps:</b><a href=" + e.features[0].properties.GmapsLink + "> " +
+  e.features[0].properties.Name + "</a>"
 
 
            // Ensure that if the map is zoomed out such that multiple copies of the feature are visible,
