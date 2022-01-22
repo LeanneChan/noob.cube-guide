@@ -4,14 +4,14 @@ map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/light-v10',
   // center: [ -75.135791, 40.008376],
-  center:[-75.150312,40.000836],
-  zoom: 10
+  center:[103.8, 1.344896],
+  zoom: 11
 });
 
 
 /* ============= DATA SET UP ============== */
 var hydrants;
-$.ajax('https://raw.githubusercontent.com/njxinran95/PhillyFire_App/master/deciles_CityAndEng_4326.geojson')
+$.ajax('https://raw.githubusercontent.com/LeanneChan/noob.cube-guide/main/Noob%20Cube%20Guide%20POC%20-%20Sheet1%20(2).geojson')
   .done(function(response) {
     hydrants= JSON.parse(response);
     console.log(hydrants);
@@ -25,8 +25,8 @@ var engines;
     });
 
 /* ============= Legend setup ============== */
-var layers = ['Top Priority (1)', '2', '3', '4', '5', '6', '7', '8', '9', 'Lowest Priority (10)'];
-var colors = ['#ffffcc','#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026',  '#420D09'];
+// var layers = ['Top Priority (1)', '2', '3', '4', '5', '6', '7', '8', '9', 'Lowest Priority (10)'];
+// var colors = ['#ffffcc','#FFEDA0', '#FED976', '#FEB24C', '#FD8D3C', '#FC4E2A', '#E31A1C', '#BD0026', '#800026',  '#420D09'];
 
 /* ============= MAPS============== */
 var hoveredStateId = null;
@@ -41,20 +41,20 @@ var hydrantOpac_text = document.getElementById('slider-value_map2');
 //Map overall
 map.on('load', function() {
   // create the legend
-  for (i = 0; i < layers.length; i++) {
-    var layer = layers[i];
-    var color = colors[i];
-    var item = document.createElement('div');
-    var key = document.createElement('span');
-    key.className = 'legend-key';
-    key.style.backgroundColor = color;
+  // for (i = 0; i < layers.length; i++) {
+  //   var layer = layers[i];
+  //   var color = colors[i];
+  //   var item = document.createElement('div');
+  //   var key = document.createElement('span');
+  //   key.className = 'legend-key';
+  //   key.style.backgroundColor = color;
 
-    var value = document.createElement('span');
-    value.innerHTML = layer;
-    item.appendChild(key);
-    item.appendChild(value);
-    legend.appendChild(item);
-  }
+  //   var value = document.createElement('span');
+  //   value.innerHTML = layer;
+  //   item.appendChild(key);
+  //   item.appendChild(value);
+  //   legend.appendChild(item);
+  // }
 
   //Add source: hydrant (points）
   map.addSource('hydrants', {
@@ -128,11 +128,11 @@ map.on('load', function() {
             //'layout': {
               //'visibility': 'visible'},
             paint: {
-             "circle-color": "#7ebdb4",
-             "circle-radius": 3,
-             "circle-stroke-width": 0.1,
+             "circle-color": "#800026",
+             "circle-radius": 10,
+             "circle-stroke-width": 1,
              "circle-stroke-color": "white",
-             "circle-opacity":1
+             "circle-opacity":0.5
             }
   });
 
@@ -183,10 +183,14 @@ map.on('load', function() {
 map.on('click', 'hydrants', function (e) {
   map.flyTo({ center: e.features[0].geometry.coordinates});
   var coordinates = e.features[0].geometry.coordinates.slice();
-  var description = "<b>Hydrant ID:</b> " + e.features[0].properties.HYDRANTNUM;
-  description += "<br><b>Engine number:</b> " + e.features[0].properties.ENGINE_NUM;
-  description += "<br><b>Year installed:</b> " + e.features[0].properties.YEAR_INSTA;
-  description += "<br><b>Date of last inspection:</b> " + e.features[0].properties.DATEOFLAST;
+  var description = "<b>" + e.features[0].properties.Name +"</b>";
+  description += "<br><b>Category:</b> " + e.features[0].properties.Category;
+  description += "<br><b>Noob Cube Rating:</b> " + e.features[0].properties.YEAR_INSTA;
+  description += "<br><b>Comments:</b> " + e.features[0].properties.Comments;
+  description += "<br><b>Address:</b> " + e.features[0].properties.Address;
+  description += "<br><b>Link:</b> " + e.features[0].properties.Comments;
+
+
            // Ensure that if the map is zoomed out such that multiple copies of the feature are visible,
            // the popup appears over the copy being pointed to.
   while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {

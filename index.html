@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Hydrant Inspector</title>
+	<title>Noob Cube Guide</title>
 	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
 	<!-- CSS Imports -->
@@ -28,7 +28,7 @@
 	</style>
 	<!-- title -->
 	<div class="titlebar space">
-		<h4 style="font-family: 'Avenir', Helvetica, sans-serif;">PHILADELPHIA HYDRANT INSPECTOR</h4>
+		<h4 style="font-family: 'Avenir', Helvetica, sans-serif;">NOOB CUBE GUIDE</h4>
 	</div>
 
 </head>
@@ -39,33 +39,24 @@
 		<div id="threshold" class="w-100">
 			<div class="help-tip">
 			    <p><p>
-			    	<b>Fire Risk: </b> Predicted fires trained on 2018 data. <br>
-					<br>
-			    	<b>Industrial Parcels:</b> Kernel density industrial parcels around hydrant <br>
-					<br>
-			    	<b>Social Impact:</b> Proximity to schools, number of youth/elderly, population density, and median income of area.<br>
-					<br>
-			    	<b>Hydrant Age:</b> 2020 - year built.
-			    	<br>
-			    	<br>
-			    	<b>Select if you would like scores ranked 1-10 within engines or across the city.</b>
+			    	Noob Cube Guide
 		    	</p>
 
 			</div>
-			<h5>Build hydrant inspection prioritization:</h5>
+			<h5>Select Category</h5>
 			<div class="container">
-				<p><b>Factors to prioritize:</b></p>
+				<p><b></b></p>
 			 <!-- BE CAREFUL WITH CHECKBOXES! The jQuery API handles checkboxes differently than other inputs! -->
-			     <label id="checkbox-label1" for="cbox-input1">Fire Risk</label>
+			     <label id="checkbox-label1" for="cbox-input1">Coffee</label>
 			     <input type="checkbox" id="cbox-input1">
 			     <br>
-			     <label id="checkbox-label2" for="cbox-input2">Industrial Parcels</label>
+			     <label id="checkbox-label2" for="cbox-input2">Beer</label>
 			     <input type="checkbox" id="cbox-input2">
 			     <br>
-			     <label id="checkbox-label3" for="cbox-input3">Social Impact</label>
+			     <label id="checkbox-label3" for="cbox-input3">Cockatils</label>
 			     <input type="checkbox" id="cbox-input3">
 			     <br>
-			     <label id="checkbox-label4" for="cbox-input4">Hydrant Age</label>
+			     <label id="checkbox-label4" for="cbox-input4">Wine</label>
 			     <input type="checkbox" id="cbox-input4">
 			     <br>
 			     <!-- toggle to rank by engine or by philly -->
@@ -74,26 +65,25 @@
 
 			</div>
 		 	<!-- End of score filters -->
-			<h5>Filter Hydrants:</h5>
+			<!-- <h5>Filter Hydrants:</h5> -->
 			<!-- Begin of hydrany filter -->
 			<!-- <p>Drag the slider to select prioritization score.</p> -->
-			<div class="container">
+			<!-- <div class="container">
 				<label id="checkbox-label5" for="cbox-input5">Filter by priority?</label>
 			    <input type="checkbox" id="cbox-input5">
 			    <div class="slider">
 				    <input type="range" min="1" max="10" value="1" class="slider" id="myRange">
 				    <p>Priority: <span id="demo"></span></p>
 				</div>
-			</div>
-			<br>
-			<br>
+			</div> -->
+	
 			<!-- Filter for Engines-->
 			<!-- <p>Type in engine number to view selected engine.</p> -->
 			<div class="container">
 				<label id="checkbox-label6" for="cbox-input6">Filter by engine?</label>
 				<input type="checkbox" id="cbox-input6">
 				<!-- Trigger/Open The Modal -->
-		   		<button id="engineBtn" src="EngineMap.jpg" alt="Engines and numbers">See engines</button>
+		   		<button id="engineBtn" src="EngineMap.jpg" alt="Engines and numbers">Open the pop-up?</button>
 
 				<!-- The Modal -->
 			  	<div id="myModal" class="modal">
@@ -118,16 +108,13 @@
  		<div class="card">
  			<div class ="card-footer">
 	 			<h5 class="card-title" style="text-align:center"><strong>   ABOUT   </strong></h5>
-	 			<p class="card-text">Hydrant Inspector is an application to help the Philadelphia Fire Department to inspect hydrants. The fire risk scores were generated using machine learning methods. For more information on the process, please follow the links below:</p>
+	 			<p class="card-text">By LeAnne Chan and Stefan Tan</p>
 		        <!-- <a data-toggle="modal" data-target="#exampleModal" style="float: left">Guide</a> -->
-		        <a class= "card-link" href="#" style="text-align:center">Project Markdown</a>
+		        <a class= "card-link" href="https://leannechan.github.io/" style="text-align:center">LeAnne's Profile</a>
 				<br>
-		        <a class= "card-link" href="https://github.com/njxinran95/PhillyFire_App" style="text-align:center">APP Github</a>
-				<br>
-				<a class="card-link" href="https://pennmusa.github.io/MUSA_801.io/" style="text-align:center">MUSA Home</a>
+				<a class="card-link" href="https://pennmusa.github.io/MUSA_801.io/" style="text-align:center">Stefan's Profile</a>
 				<br>
 				<br>
-		        <p class="card-text"><strong>Team:</strong> Leanne Chan, Ran Xin, Ziqun Li (University of Pennsylvania, 2020)<br><strong>APP by:</strong> Leanne Chan, Ran Xin</p>
 	     	</div>
 	    </div>
 
@@ -141,7 +128,7 @@
 	<!-- Legend  -->
 	<div class='map-overlay' id='legend'></div>
 	<!-- Slider: Adjust engine opacity-->
-	<div class="map-overlay" id='opacityslider1'>
+	<!-- <div class="map-overlay" id='opacityslider1'>
 		<div class="map-overlay" id='opacityslider2'>
 			<label style="font-family: 'Avenir', Helvetica, sans-serif;">Engine opacity: <span id="slider-value_map">100%</span></label>
 			<input
@@ -152,10 +139,10 @@
 				step="0"
 				value="100"/>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- Slider: Adjust hydrant opacity-->
-	<div class="map-overlay" id='opacityslider3'>
+	<!-- <div class="map-overlay" id='opacityslider3'>
 		<div class="map-overlay" id='opacityslider4'>
 			<label style="font-family: 'Avenir', Helvetica, sans-serif;">Hydrant opacity: <span id="slider-value_map2">100%</span></label>
 			<input
@@ -167,7 +154,7 @@
 			value="100"
 			/>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- Button： show and hide layers-->
 	<div class="dropdown" id="mapOptions">
@@ -179,12 +166,12 @@
  	</div>
 
 	<!-- Button trigger modal -->
-	<button type="button" id="helpButton" class="btn btn-primary" data-toggle="modal" data-target="#myModalHome">
+	<!-- <button type="button" id="helpButton" class="btn btn-primary" data-toggle="modal" data-target="#myModalHome">
 	  User guide
-	</button>
+	</button> -->
 
 	<!-- Modal -->
-    <div class="modal fade" id="myModalHome" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="myModalHome" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     	<div class="modal-dialog" role="document">
 	        <div class="modal-content">
 	        	<div class="modal-header">
@@ -232,16 +219,10 @@
 						</li>
 		        	</ul>
 		      	</div>
-		      	<!-- end of model-body -->
-	          	<div class="modal-footer">
-	            	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	        	</div>
-	        	<!-- end of model-footer -->
 	      	</div>
-      	<!-- end of modal content -->
     	</div>
-  	</div>
-  	<!-- End of user guide modal -->
+  	</div> -->
+  	<!-- End of user guide modal --> 
 
 	<!-- SCRIPTS! -->
 	<script src="main.js"></script>
