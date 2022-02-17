@@ -8,8 +8,8 @@ body {
   height: 40px;
   top: 0;
   text-align: center;
-  background-color: #46185f;
-  color: white;
+  background-color: #D1F2EB;
+  color: black;
   padding-top: 9px;
   font-weight: bold;
 }
@@ -139,7 +139,7 @@ body {
 }
 
 #plotbutton {
-  background-color: #756bb1;
+  background-color: #D1F2EB;
   border-radius: 5px;
   color: white;
   padding: 7px 15px;
@@ -150,7 +150,7 @@ body {
 }
 
 #resetbutton {
-  background-color: #756bb1;
+  background-color: #D1F2EB;
   border-radius: 5px;
   color: white;
   padding: 7px 15px;
@@ -273,7 +273,7 @@ body {
 /* CSS FOR hide and show layers button */
 
 #dropdownMenuButton {
-  background: #756bb1;
+  background: #D1F2EB;
   opacity: 0.8;
   position: absolute;
   z-index: 1;
@@ -283,6 +283,8 @@ body {
   width: 120px;
   border: 1px solid rgba(0, 0, 0, 0.4);
   font-family: sans-serif;
+  color: black;
+
 }
 
 #menu {

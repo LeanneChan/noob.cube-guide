@@ -11,7 +11,7 @@ map = new mapboxgl.Map({
 
 /* ============= DATA SET UP ============== */
 var hydrants;
-$.ajax('https://raw.githubusercontent.com/LeanneChan/noob.cube-guide/main/Noob%20Cube%20Guide%20POC%20-%20Sheet1%20(2).geojson')
+$.ajax('https://raw.githubusercontent.com/LeanneChan/noob.cube-guide/main/noob_cube_list.geojson')
   .done(function(response) {
     hydrants= JSON.parse(response);
     console.log(hydrants);
@@ -183,13 +183,13 @@ map.on('load', function() {
 map.on('click', 'hydrants', function (e) {
   map.flyTo({ center: e.features[0].geometry.coordinates});
   var coordinates = e.features[0].geometry.coordinates.slice();
-  var description = "<b>" + e.features[0].properties.Name +"</b>";
+  var description = "<h5><b><font color = '#2471A3'>" + e.features[0].properties.Place +"</font></b></h5>";
   description += "<br><b>Category:</b> " + e.features[0].properties.Category;
-  description += "<br><b>Noob Cube Rating:</b> " + e.features[0].properties.NoobCubeRating;
+  //description += "<br><b>Noob Cube Rating:</b> " + e.features[0].properties.NoobCubeRating;
   description += "<br><b>Comments:</b> " + e.features[0].properties.Comments;
   description += "<br><b>Address:</b> " + e.features[0].properties.Address;
-  description += "<br><b>Find in Google Maps:</b><a href=" + e.features[0].properties.GmapsLink + "> " +
-  e.features[0].properties.Name + "</a>"
+  description += "<br><b>Find in Google Maps:</b><a href=" + e.features[0].properties.urls + "> " +
+  e.features[0].properties.Place + "</a>"
 
 
            // Ensure that if the map is zoomed out such that multiple copies of the feature are visible,
